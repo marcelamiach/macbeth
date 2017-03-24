@@ -3,6 +3,7 @@ require 'spec_helper'
 describe FileManager do
   before do
     @file_manager = FileManager.new
+    WebMock.disable_net_connect!(allow_localhost: true)
   end
   
   it 'makes sure there is a class called FileManager' do
