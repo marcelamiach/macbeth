@@ -18,4 +18,10 @@ describe FileManager do
     allow(@file_manager).to receive(:open).and_raise(SocketError)
     expect { @file_manager.get(instance_of(String)) }.to raise_error(message)
   end
+  
+  it 'method get should raise exception with INVALID_URI_ERROR_MESSAGE when handling InvalidURIError' do
+    message = FileManager::INVALID_URI_ERROR_MESSAGE
+    allow(@file_manager).to receive(:open).and_raise(URI::InvalidURIError)
+    expect { @file_manager.get(instance_of(String)) }.to raise_error(message)
+  end
 end
