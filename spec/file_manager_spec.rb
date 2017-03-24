@@ -24,4 +24,10 @@ describe FileManager do
     allow(@file_manager).to receive(:open).and_raise(URI::InvalidURIError)
     expect { @file_manager.get(instance_of(String)) }.to raise_error(message)
   end
+
+  it 'method get should raise exception with STANDARD_ERROR_MESSAGE when handling StandardError' do
+    message = FileManager::STANDARD_ERROR_MESSAGE
+    allow(@file_manager).to receive(:open).and_raise(StandardError)
+    expect { @file_manager.get(instance_of(String)) }.to raise_error(message)
+  end
 end
