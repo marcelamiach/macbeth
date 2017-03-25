@@ -9,6 +9,7 @@ class FileManager
   STANDARD_ERROR_MESSAGE = "Something went wrong when downloading file."
   
   HTTP_RESPONSE_ERROR_MESSAGE = "The server response was not successful."
+  HTTP_RESPONSE_BODY_EMPTY = "The server returned an empty body."
   def get(url)
     begin
       response = open(url)
@@ -23,6 +24,7 @@ class FileManager
     return if response.nil?
     
     raise Exception.new(HTTP_RESPONSE_ERROR_MESSAGE) if response.code != "200"
+    raise Exception.new(HTTP_RESPONSE_BODY_EMPTY) if response.body.nil?
     
     response.body
   end
