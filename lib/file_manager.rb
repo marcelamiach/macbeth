@@ -1,5 +1,6 @@
 require 'socket'
 require 'uri'
+require 'net/http'
 
 class FileManager
   
@@ -17,5 +18,10 @@ class FileManager
     rescue
       raise STANDARD_ERROR_MESSAGE
     end
+  end
+  
+  def open(url)
+    uri = URI(url)
+    Net::HTTP.get_response(uri)
   end
 end

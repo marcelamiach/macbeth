@@ -31,4 +31,13 @@ describe FileManager do
     allow(@file_manager).to receive(:open).and_raise(StandardError)
     expect { @file_manager.get(instance_of(String)) }.to raise_error(message)
   end
+  
+  it 'method open should return Net::HTTPResponse object' do
+    url = "http://www.example.com"
+    stub_request(:get, url)
+    
+    response = @file_manager.open(url)
+    
+    expect(response).to be_kind_of(Net::HTTPResponse)
+  end
 end
