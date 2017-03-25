@@ -40,4 +40,11 @@ describe FileManager do
     
     expect(response).to be_kind_of(Net::HTTPResponse)
   end
+  
+  it 'method get should raise exception if response status code is not 200' do
+    url = "http://www.example.com"
+    stub_request(:get, url).to_return(:status => 404)
+
+    expect { @file_manager.get(url) }.to raise_error(FileManager::HTTP_RESPONSE_ERROR_MESSAGE)
+  end
 end

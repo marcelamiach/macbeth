@@ -8,6 +8,7 @@ class FileManager
   INVALID_URI_ERROR_MESSAGE = "This is not valid url."
   STANDARD_ERROR_MESSAGE = "Something went wrong when downloading file."
   
+  HTTP_RESPONSE_ERROR_MESSAGE = "The server response was not successful."
   def get(url)
     begin
       response = open(url)
@@ -18,6 +19,10 @@ class FileManager
     rescue
       raise STANDARD_ERROR_MESSAGE
     end
+    
+    return if response.nil?
+    
+    raise Exception.new(HTTP_RESPONSE_ERROR_MESSAGE) if response.code != "200"
   end
   
   def open(url)
