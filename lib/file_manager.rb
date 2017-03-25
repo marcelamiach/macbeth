@@ -23,6 +23,8 @@ class FileManager
     return if response.nil?
     
     raise Exception.new(HTTP_RESPONSE_ERROR_MESSAGE) if response.code != "200"
+    
+    response.body
   end
   
   def open(url)

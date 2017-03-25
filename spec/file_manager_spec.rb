@@ -47,4 +47,13 @@ describe FileManager do
 
     expect { @file_manager.get(url) }.to raise_error(FileManager::HTTP_RESPONSE_ERROR_MESSAGE)
   end
+  
+  it 'method get should return string if response status code is 200 and body not blank' do
+    url = "http://www.example.com"
+    stub_request(:get, url).to_return(:body => "abc", :status => 200)
+    
+    get_return = @file_manager.get(url)
+    
+    expect(get_return).to be_kind_of(String)
+  end
 end
