@@ -14,6 +14,8 @@ class DownloadManager
   def get_url_content(url)
     
     raise ArgumentError if url.nil?
+    
+    raise ArgumentError if not (url.instance_of? String)
     begin
       response = run_get_request(url)
     rescue SocketError
