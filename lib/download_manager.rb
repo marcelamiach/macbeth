@@ -12,6 +12,8 @@ class DownloadManager
   HTTP_RESPONSE_BODY_EMPTY = "The server returned an empty body."
 
   def get_url_content(url)
+    
+    raise ArgumentError if url.nil?
     begin
       response = run_get_request(url)
     rescue SocketError

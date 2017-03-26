@@ -14,6 +14,10 @@ describe DownloadManager do
     is_expected.to respond_to(:get_url_content).with(1).argument
   end
   
+  it 'method get_url_content should raise ArgumentError if argument is nil' do
+    expect { @download_manager.get_url_content(nil) }.to raise_error(ArgumentError)
+  end
+  
   it 'method get_url_content should raise exception with SOCKET_ERROR_MESSAGE when handling SocketError' do
     message = DownloadManager::SOCKET_ERROR_MESSAGE
     allow(@download_manager).to receive(:run_get_request).and_raise(SocketError)
