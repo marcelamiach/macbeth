@@ -16,6 +16,8 @@ class DownloadManager
     raise ArgumentError if url.nil?
     
     raise ArgumentError if not (url.instance_of? String)
+    raise ArgumentError if url.empty?
+    
     begin
       response = run_get_request(url)
     rescue SocketError

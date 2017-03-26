@@ -28,6 +28,12 @@ describe DownloadManager do
     expect { @download_manager.get_url_content(argument3) }.to raise_error(ArgumentError)
   end
   
+  it 'method get_url_content should raise ArgumentError if string is empty' do
+    argument = ""
+    
+    expect { @download_manager.get_url_content(argument) }.to raise_error(ArgumentError)
+  end
+  
   it 'method get_url_content should raise exception with SOCKET_ERROR_MESSAGE when handling SocketError' do
     message = DownloadManager::SOCKET_ERROR_MESSAGE
     allow(@download_manager).to receive(:run_get_request).and_raise(SocketError)
