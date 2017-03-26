@@ -38,4 +38,15 @@ describe Parser do
       expect { @parser.parse_url_content(argument) }.to raise_error(ArgumentError)
     end
   end
+  
+  context "When testing integration with DownloadManager" do
+    
+    it 'parse_url_content should raise exeception if DownloadManager#get_url_content returns nil' do
+      url = "www.example.com"
+      
+      allow_any_instance_of(DownloadManager).to receive(:get_url_content).with(url).and_return(nil)
+      
+      expect { @parser.parse_url_content(url) }.to raise_error(Parser::INVALID_URL_CONTENT_ERROR_MESSAGE)
+    end
+  end
 end
