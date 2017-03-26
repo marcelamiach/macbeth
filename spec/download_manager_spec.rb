@@ -44,9 +44,12 @@ describe DownloadManager do
   end
   
   it 'method get_url_content should raise exception with INVALID_URI_ERROR_MESSAGE when handling InvalidURIError' do
+    argument = "This is another random string"
     message = DownloadManager::INVALID_URI_ERROR_MESSAGE
+    
     allow(@download_manager).to receive(:run_get_request).and_raise(URI::InvalidURIError)
-    expect { @download_manager.get_url_content(instance_of(String)) }.to raise_error(message)
+    
+    expect { @download_manager.get_url_content(argument) }.to raise_error(message)
   end
 
   it 'method get_url_content should raise exception with STANDARD_ERROR_MESSAGE when handling StandardError' do
