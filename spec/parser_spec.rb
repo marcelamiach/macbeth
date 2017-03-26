@@ -1,9 +1,12 @@
 require 'spec_helper'
  
 describe Parser do
+  before do
+    @parser = Parser.new
+  end
+  
   it 'makes sure there is a class called Parser' do
-    parser  = Parser.new
-    expect(parser).not_to be_nil
+    expect(@parser).not_to be_nil
   end
   
   it 'Parser should have method parse_url_content to parse content from url' do
