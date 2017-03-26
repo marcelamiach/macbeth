@@ -29,6 +29,8 @@ class FileManager
     response.body
   end
   
+  private
+  
   def open(url)
     uri = URI(url)
     Net::HTTP.get_response(uri)

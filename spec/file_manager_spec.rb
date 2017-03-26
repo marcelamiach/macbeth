@@ -36,7 +36,7 @@ describe FileManager do
     url = "http://www.example.com"
     stub_request(:get, url)
     
-    response = @file_manager.open(url)
+    response = @file_manager.send(:open, url)
     
     expect(response).to be_kind_of(Net::HTTPResponse)
   end
