@@ -11,7 +11,7 @@ class DownloadManager
   HTTP_RESPONSE_ERROR_MESSAGE = "The server response was not successful."
   HTTP_RESPONSE_BODY_EMPTY = "The server returned an empty body."
 
-  def get(url)
+  def get_url_content(url)
     begin
       response = run_get_request(url)
     rescue SocketError
