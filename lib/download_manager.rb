@@ -13,7 +13,7 @@ class DownloadManager
 
   def get(url)
     begin
-      response = open(url)
+      response = run_get_request(url)
     rescue SocketError
       raise SOCKET_ERROR_MESSAGE
     rescue URI::InvalidURIError
@@ -32,7 +32,7 @@ class DownloadManager
   
   private
   
-  def open(url)
+  def run_get_request(url)
     uri = URI(url)
     Net::HTTP.get_response(uri)
   end

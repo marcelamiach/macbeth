@@ -16,27 +16,27 @@ describe DownloadManager do
   
   it 'method get should raise exception with SOCKET_ERROR_MESSAGE when handling SocketError' do
     message = DownloadManager::SOCKET_ERROR_MESSAGE
-    allow(@download_manager).to receive(:open).and_raise(SocketError)
+    allow(@download_manager).to receive(:run_get_request).and_raise(SocketError)
     expect { @download_manager.get(instance_of(String)) }.to raise_error(message)
   end
   
   it 'method get should raise exception with INVALID_URI_ERROR_MESSAGE when handling InvalidURIError' do
     message = DownloadManager::INVALID_URI_ERROR_MESSAGE
-    allow(@download_manager).to receive(:open).and_raise(URI::InvalidURIError)
+    allow(@download_manager).to receive(:run_get_request).and_raise(URI::InvalidURIError)
     expect { @download_manager.get(instance_of(String)) }.to raise_error(message)
   end
 
   it 'method get should raise exception with STANDARD_ERROR_MESSAGE when handling StandardError' do
     message = DownloadManager::STANDARD_ERROR_MESSAGE
-    allow(@download_manager).to receive(:open).and_raise(StandardError)
+    allow(@download_manager).to receive(:run_get_request).and_raise(StandardError)
     expect { @download_manager.get(instance_of(String)) }.to raise_error(message)
   end
   
-  it 'method open should return Net::HTTPResponse object' do
+  it 'method run_get_request should return Net::HTTPResponse object' do
     url = "http://www.example.com"
     stub_request(:get, url)
     
-    response = @download_manager.send(:open, url)
+    response = @download_manager.send(:run_get_request, url)
     
     expect(response).to be_kind_of(Net::HTTPResponse)
   end
