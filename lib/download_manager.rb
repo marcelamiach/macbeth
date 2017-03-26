@@ -2,7 +2,7 @@ require 'socket'
 require 'uri'
 require 'net/http'
 
-class FileManager
+class DownloadManager
   
   SOCKET_ERROR_MESSAGE = "Failed to connect to server."
   INVALID_URI_ERROR_MESSAGE = "This is not valid url."
@@ -10,6 +10,7 @@ class FileManager
   
   HTTP_RESPONSE_ERROR_MESSAGE = "The server response was not successful."
   HTTP_RESPONSE_BODY_EMPTY = "The server returned an empty body."
+
   def get(url)
     begin
       response = open(url)
