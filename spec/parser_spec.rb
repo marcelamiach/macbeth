@@ -21,5 +21,15 @@ describe Parser do
     it 'method parse_url_content should raise ArgumentError if argument is nil' do
       expect { @parser.parse_url_content(nil) }.to raise_error(ArgumentError)
     end
+  
+    it 'method parse_url_content should raise ArgumentError if it does not receive string' do
+      argument1 = [1, 2, 3, 4, 5, 6]
+      argument2 = 6
+      argument3 = {:first => "first", :second => "second" }
+
+      expect { @parser.parse_url_content(argument1) }.to raise_error(ArgumentError)
+      expect { @parser.parse_url_content(argument2) }.to raise_error(ArgumentError)
+      expect { @parser.parse_url_content(argument3) }.to raise_error(ArgumentError)
+    end
   end
 end
