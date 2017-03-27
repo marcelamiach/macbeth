@@ -66,7 +66,11 @@ describe Parser do
     end
     
     it 'parse_url_content should raise exception if xml content has not a title' do
+      xml_content = "<PLAY></PLAY>"
       
+      allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return(xml_content)
+      
+      expect { @parser.parse_url_content(@url) }.to raise_error(Parser::NO_TITLE_TAG_ERROR_MESSAGE)
     end
   end
 end
