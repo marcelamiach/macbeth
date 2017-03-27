@@ -104,5 +104,94 @@ describe Parser do
       
       expect { @parser.parse_url_content(@url) }.to raise_error(Parser::NO_SPEAKER_TAG_ERROR_MESSAGE)
     end
+    
+    it 'parse_url_content should return hash of speakers counting: keys are speakers and values are couting' do
+      xml_content = valid_play_xml
+      expected_hash = 
+        {"First Speaker" => 3, "Second Speaker" => 2, "Third Speaker" => 2,
+          "Fourth Speaker" => 1, "Fifth Speaker" => 2, "6th Speaker" => 1 }
+      
+      # Speaker "ALL" should be ignored
+      
+      allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return(xml_content)
+      hash = @parser.parse_url_content(@url)
+      
+      expect(expected_hash).to eq(hash)
+    end
+    
+    def valid_play_xml
+      builder = Nokogiri::XML::Builder.new do |xml|
+        xml.PLAY {
+          xml.TITLE "This is the title"
+          xml.ACT {
+            xml.SCENE {
+              xml.SPEECH {
+                xml.SPEAKER "First Speaker"
+                xml.LINE "First line"
+                xml.LINE "Second line"
+              }
+              xml.SPEECH {
+                xml.SPEAKER "Second Speaker"
+                xml.LINE "His first line"
+                xml.LINE "His second line"
+                xml.LINE "His third line"
+              }
+              xml.SPEECH {
+                xml.SPEAKER "Third Speaker"
+                xml.LINE "Just this line"
+              }
+              xml.SPEECH {
+                xml.SPEAKER "ALL"
+                xml.LINE "We are all together talking"
+              }
+            }
+            xml.SCENE {
+              xml.SPEECH {
+                xml.SPEAKER "Fourth Speaker"
+                xml.LINE "A new line"
+              }
+              xml.SPEECH {
+                xml.SPEAKER "First Speaker"
+                xml.LINE "He speaks again"
+              }
+              xml.SPEECH {
+                xml.SPEAKER "Third Speaker"
+                xml.LINE "He is also talking again"
+              }
+            }
+          }
+          xml.ACT {
+            xml.SCENE {
+              xml.SPEECH {
+                xml.SPEAKER "Fifth Speaker"
+                xml.LINE "It's my turn"
+              }
+              xml.SPEECH {
+                xml.SPEAKER "Second Speaker"
+                xml.LINE "It's me again"
+              }
+              xml.SPEECH {
+                xml.SPEAKER "6th Speaker"
+                xml.LINE "I'm new here"
+              }
+              xml.SPEECH {
+                xml.SPEAKER "First Speaker"
+                xml.LINE "I'm here again"
+                xml.LINE "Let me talk a little bit"
+              }
+            }
+          }
+          xml.ACT {
+            xml.SCENE {
+              xml.SPEECH {
+                xml.SPEAKER "Fifth Speaker"
+                xml.LINE "This act is a monologue"
+              }
+            }
+          }
+        }
+      end
+      builder.to_xml
+    end
   end
 end

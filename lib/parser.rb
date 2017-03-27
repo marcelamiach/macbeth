@@ -36,6 +36,22 @@ class Parser
     raise Exception.new(NO_SCENE_TAG_ERROR_MESSAGE) if has_not_scene?(xml_content)
     raise Exception.new(NO_SPEECH_TAG_ERROR_MESSAGE) if has_not_speech?(xml_content)
     raise Exception.new(NO_SPEAKER_TAG_ERROR_MESSAGE) if has_not_speaker?(xml_content)
+    
+    hash = Hash.new
+    
+    speakers = xml_content.xpath("//PLAY//ACT//SCENE//SPEECH//SPEAKER")
+  
+    speakers.each do |speaker|
+      next if speaker.content == "ALL"
+      
+      if hash.keys.include?("#{speaker.content}")
+        hash["#{speaker.content}"] = hash["#{speaker.content}"] + 1
+      else
+        hash.merge!("#{speaker.content}" => 1)
+      end
+    end
+  
+    hash
   end
   
   private
