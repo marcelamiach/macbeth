@@ -1,4 +1,5 @@
 require File.join(File.dirname(__FILE__), 'download_manager')
+require File.join(File.dirname(__FILE__), 'invalid_xml_content_error')
 require 'nokogiri'
 
 class Parser
@@ -22,20 +23,20 @@ class Parser
     download_manager = DownloadManager.new
     url_content = download_manager.get_url_content(url)
     
-    raise Exception.new(INVALID_URL_CONTENT_ERROR_MESSAGE) if url_content.nil?
+    raise InvalidXmlContentError.new(INVALID_URL_CONTENT_ERROR_MESSAGE) if url_content.nil?
     
     begin
       xml_content = parse_xml_content(url_content)
     rescue
     end
     
-    raise Exception.new(NOT_XML_CONTENT_ERROR_MESSAGE) if xml_content.nil?
-    raise Exception.new(NOT_PLAY_CONTENT_ERROR_MESSAGE) if is_not_a_play?(xml_content)
-    raise Exception.new(NO_TITLE_TAG_ERROR_MESSAGE) if has_not_title?(xml_content)
-    raise Exception.new(NO_ACT_TAG_ERROR_MESSAGE) if has_not_act?(xml_content)
-    raise Exception.new(NO_SCENE_TAG_ERROR_MESSAGE) if has_not_scene?(xml_content)
-    raise Exception.new(NO_SPEECH_TAG_ERROR_MESSAGE) if has_not_speech?(xml_content)
-    raise Exception.new(NO_SPEAKER_TAG_ERROR_MESSAGE) if has_not_speaker?(xml_content)
+    raise InvalidXmlContentError.new(NOT_XML_CONTENT_ERROR_MESSAGE) if xml_content.nil?
+    raise InvalidXmlContentError.new(NOT_PLAY_CONTENT_ERROR_MESSAGE) if is_not_a_play?(xml_content)
+    raise InvalidXmlContentError.new(NO_TITLE_TAG_ERROR_MESSAGE) if has_not_title?(xml_content)
+    raise InvalidXmlContentError.new(NO_ACT_TAG_ERROR_MESSAGE) if has_not_act?(xml_content)
+    raise InvalidXmlContentError.new(NO_SCENE_TAG_ERROR_MESSAGE) if has_not_scene?(xml_content)
+    raise InvalidXmlContentError.new(NO_SPEECH_TAG_ERROR_MESSAGE) if has_not_speech?(xml_content)
+    raise InvalidXmlContentError.new(NO_SPEAKER_TAG_ERROR_MESSAGE) if has_not_speaker?(xml_content)
     
     hash = Hash.new
     

@@ -34,9 +34,9 @@ class DownloadManager
     
     return if response.nil?
     
-    raise Exception.new(HTTP_RESPONSE_ERROR_MESSAGE) if response.code != "200"
-    raise Exception.new(HTTP_RESPONSE_BODY_EMPTY) if response.body.nil?
-    raise Exception.new(HTTP_RESPONSE_BAD_CONTENT_TYPE) if not response['Content-type'].include? 'text'
+    raise Net::HTTPBadResponse.new(HTTP_RESPONSE_ERROR_MESSAGE) if response.code != "200"
+    raise Net::HTTPBadResponse.new(HTTP_RESPONSE_BODY_EMPTY) if response.body.nil?
+    raise Net::HTTPBadResponse.new(HTTP_RESPONSE_BAD_CONTENT_TYPE) if not response['Content-type'].include? 'text'
     
     response.body
   end

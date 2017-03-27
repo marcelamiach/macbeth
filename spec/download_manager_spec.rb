@@ -95,7 +95,7 @@ describe DownloadManager do
       url = "http://www.example.com"
       stub_request(:get, url).to_return(:status => 404)
 
-      expect { @download_manager.get_url_content(url) }.to raise_error(DownloadManager::HTTP_RESPONSE_ERROR_MESSAGE)
+      expect { @download_manager.get_url_content(url) }.to raise_error(Net::HTTPBadResponse, DownloadManager::HTTP_RESPONSE_ERROR_MESSAGE)
     end
   
     it 'method get_url_content should return string if response status code is 200 and body not blank' do
@@ -111,7 +111,7 @@ describe DownloadManager do
       url = "http://www.example.com"
       stub_request(:get, url).to_return(:body => "", :status => 200)
     
-      expect { @download_manager.get_url_content(url) }.to raise_error(DownloadManager::HTTP_RESPONSE_BODY_EMPTY)
+      expect { @download_manager.get_url_content(url) }.to raise_error(Net::HTTPBadResponse, DownloadManager::HTTP_RESPONSE_BODY_EMPTY)
     end
     
     it 'method get_url_content should raise exception if response content-type is not a text' do
@@ -123,11 +123,11 @@ describe DownloadManager do
         { :body => "zip", :status => 200, :headers => { 'Content-type' => 'application/zip'}},
         { :body => "zip", :status => 200, :headers => { 'Content-type' => 'image/gif'}})
       
-      expect { @download_manager.get_url_content(url) }.to raise_error(DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
-      expect { @download_manager.get_url_content(url) }.to raise_error(DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
-      expect { @download_manager.get_url_content(url) }.to raise_error(DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
-      expect { @download_manager.get_url_content(url) }.to raise_error(DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
-      expect { @download_manager.get_url_content(url) }.to raise_error(DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
+      expect { @download_manager.get_url_content(url) }.to raise_error(Net::HTTPBadResponse, DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
+      expect { @download_manager.get_url_content(url) }.to raise_error(Net::HTTPBadResponse, DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
+      expect { @download_manager.get_url_content(url) }.to raise_error(Net::HTTPBadResponse, DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
+      expect { @download_manager.get_url_content(url) }.to raise_error(Net::HTTPBadResponse, DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
+      expect { @download_manager.get_url_content(url) }.to raise_error(Net::HTTPBadResponse, DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
     end
   end
 end

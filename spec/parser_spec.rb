@@ -45,7 +45,7 @@ describe Parser do
     it 'parse_url_content should raise exeception if DownloadManager#get_url_content returns nil' do
       allow_any_instance_of(DownloadManager).to receive(:get_url_content).with(@url).and_return(nil)
       
-      expect { @parser.parse_url_content(@url) }.to raise_error(Parser::INVALID_URL_CONTENT_ERROR_MESSAGE)
+      expect { @parser.parse_url_content(@url) }.to raise_error(InvalidXmlContentError, Parser::INVALID_URL_CONTENT_ERROR_MESSAGE)
     end
   end
   
@@ -54,7 +54,7 @@ describe Parser do
     it 'parse_url_content should raise exception if response body is not a xml content' do
       allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return("I'm not a xml content.")
       
-      expect { @parser.parse_url_content(@url) }.to raise_error(Parser::NOT_XML_CONTENT_ERROR_MESSAGE)
+      expect { @parser.parse_url_content(@url) }.to raise_error(InvalidXmlContentError, Parser::NOT_XML_CONTENT_ERROR_MESSAGE)
     end
     
     it 'parse_url_content should raise exception if xml content is not a play' do      
@@ -62,7 +62,7 @@ describe Parser do
 
       allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return(xml_content)
       
-      expect { @parser.parse_url_content(@url) }.to raise_error(Parser::NOT_PLAY_CONTENT_ERROR_MESSAGE)
+      expect { @parser.parse_url_content(@url) }.to raise_error(InvalidXmlContentError, Parser::NOT_PLAY_CONTENT_ERROR_MESSAGE)
     end
     
     it 'parse_url_content should raise exception if xml content has not a title' do
@@ -70,7 +70,7 @@ describe Parser do
       
       allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return(xml_content)
       
-      expect { @parser.parse_url_content(@url) }.to raise_error(Parser::NO_TITLE_TAG_ERROR_MESSAGE)
+      expect { @parser.parse_url_content(@url) }.to raise_error(InvalidXmlContentError, Parser::NO_TITLE_TAG_ERROR_MESSAGE)
     end
 
     it 'parse_url_content should raise exception if xml content has not at least one act node' do
@@ -78,7 +78,7 @@ describe Parser do
       
       allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return(xml_content)
       
-      expect { @parser.parse_url_content(@url) }.to raise_error(Parser::NO_ACT_TAG_ERROR_MESSAGE)
+      expect { @parser.parse_url_content(@url) }.to raise_error(InvalidXmlContentError, Parser::NO_ACT_TAG_ERROR_MESSAGE)
     end
 
     it 'parse_url_content should raise exception if xml content has not at least one scene inside act nodes' do
@@ -86,7 +86,7 @@ describe Parser do
       
       allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return(xml_content)
       
-      expect { @parser.parse_url_content(@url) }.to raise_error(Parser::NO_SCENE_TAG_ERROR_MESSAGE)
+      expect { @parser.parse_url_content(@url) }.to raise_error(InvalidXmlContentError, Parser::NO_SCENE_TAG_ERROR_MESSAGE)
     end
     
     it 'parse_url_content should raise exception if xml content has not at least one speech inside scene nodes' do
@@ -94,7 +94,7 @@ describe Parser do
       
       allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return(xml_content)
       
-      expect { @parser.parse_url_content(@url) }.to raise_error(Parser::NO_SPEECH_TAG_ERROR_MESSAGE)
+      expect { @parser.parse_url_content(@url) }.to raise_error(InvalidXmlContentError, Parser::NO_SPEECH_TAG_ERROR_MESSAGE)
     end
 
     it 'parse_url_content should raise exception if xml content has not at least one speaker inside speech nodes' do
@@ -102,7 +102,7 @@ describe Parser do
       
       allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return(xml_content)
       
-      expect { @parser.parse_url_content(@url) }.to raise_error(Parser::NO_SPEAKER_TAG_ERROR_MESSAGE)
+      expect { @parser.parse_url_content(@url) }.to raise_error(InvalidXmlContentError, Parser::NO_SPEAKER_TAG_ERROR_MESSAGE)
     end
     
     it 'parse_url_content should return hash of speakers counting: keys are speakers and values are couting' do
