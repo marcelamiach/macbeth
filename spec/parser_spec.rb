@@ -48,6 +48,9 @@ describe Parser do
       
       expect { @parser.parse_url_content(url) }.to raise_error(Parser::INVALID_URL_CONTENT_ERROR_MESSAGE)
     end
+  end
+  
+  context "When testing url content" do
   
     it 'parse_url_content should raise exception if response body is not a xml content' do
       url = "http://www.example.com"
