@@ -1,4 +1,4 @@
-require 'download_manager'
+require File.join(File.dirname(__FILE__), 'download_manager')
 require 'nokogiri'
 
 class Parser
