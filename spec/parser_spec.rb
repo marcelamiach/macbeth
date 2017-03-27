@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Parser do
   before do
     @parser = Parser.new
+    @url = "www.example.com"
   end
   
   context "When testing Parser class structure" do
@@ -42,31 +43,30 @@ describe Parser do
   context "When testing integration with DownloadManager" do
     
     it 'parse_url_content should raise exeception if DownloadManager#get_url_content returns nil' do
-      url = "www.example.com"
+      allow_any_instance_of(DownloadManager).to receive(:get_url_content).with(@url).and_return(nil)
       
-      allow_any_instance_of(DownloadManager).to receive(:get_url_content).with(url).and_return(nil)
-      
-      expect { @parser.parse_url_content(url) }.to raise_error(Parser::INVALID_URL_CONTENT_ERROR_MESSAGE)
+      expect { @parser.parse_url_content(@url) }.to raise_error(Parser::INVALID_URL_CONTENT_ERROR_MESSAGE)
     end
   end
   
   context "When testing url content" do
   
     it 'parse_url_content should raise exception if response body is not a xml content' do
-      url = "http://www.example.com"
-
       allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return("I'm not a xml content.")
       
-      expect { @parser.parse_url_content(url) }.to raise_error(Parser::NOT_XML_CONTENT_ERROR_MESSAGE)
+      expect { @parser.parse_url_content(@url) }.to raise_error(Parser::NOT_XML_CONTENT_ERROR_MESSAGE)
     end
     
-    it 'parse_url_content should raise exception if xml content is not a play' do
-      url = "http://www.example.com"      
+    it 'parse_url_content should raise exception if xml content is not a play' do      
       xml_content = "<blah></blah>"
 
       allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return(xml_content)
       
-      expect { @parser.parse_url_content(url) }.to raise_error(Parser::NOT_PLAY_CONTENT_ERROR_MESSAGE)
+      expect { @parser.parse_url_content(@url) }.to raise_error(Parser::NOT_PLAY_CONTENT_ERROR_MESSAGE)
+    end
+    
+    it 'parse_url_content should raise exception if xml content has not a title' do
+      
     end
   end
 end
