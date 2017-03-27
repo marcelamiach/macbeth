@@ -93,7 +93,7 @@ describe DownloadManager do
   
     it 'method get_url_content should return string if response status code is 200 and body not blank' do
       url = "http://www.example.com"
-      stub_request(:get, url).to_return(:body => "abc", :status => 200)
+      stub_request(:get, url).to_return(:body => "abc", :status => 200, :headers => { 'Content-type' => 'text/xml'})
     
       get_url_content_return = @download_manager.get_url_content(url)
     
@@ -105,6 +105,22 @@ describe DownloadManager do
       stub_request(:get, url).to_return(:body => "", :status => 200)
     
       expect { @download_manager.get_url_content(url) }.to raise_error(DownloadManager::HTTP_RESPONSE_BODY_EMPTY)
+    end
+    
+    it 'method get_url_content should raise exception if response content-type is not a text' do
+      url = "http://www.example.com"
+      stub_request(:get, url).to_return(
+        { :body => "json", :status => 200, :headers => { 'Content-type' => 'application/json'}},
+        { :body => "form", :status => 200, :headers => { 'Content-type' => 'application/x-www-form-urlencoded'}},
+        { :body => "javascript", :status => 200, :headers => { 'Content-type' => 'application/javascript'}},
+        { :body => "zip", :status => 200, :headers => { 'Content-type' => 'application/zip'}},
+        { :body => "zip", :status => 200, :headers => { 'Content-type' => 'image/gif'}})
+      
+      expect { @download_manager.get_url_content(url) }.to raise_error(DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
+      expect { @download_manager.get_url_content(url) }.to raise_error(DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
+      expect { @download_manager.get_url_content(url) }.to raise_error(DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
+      expect { @download_manager.get_url_content(url) }.to raise_error(DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
+      expect { @download_manager.get_url_content(url) }.to raise_error(DownloadManager::HTTP_RESPONSE_BAD_CONTENT_TYPE)
     end
   end
 end

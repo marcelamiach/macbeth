@@ -11,6 +11,8 @@ class DownloadManager
   HTTP_RESPONSE_ERROR_MESSAGE = "The server response was not successful."
   HTTP_RESPONSE_BODY_EMPTY = "The server returned an empty body."
 
+  HTTP_RESPONSE_BAD_CONTENT_TYPE = "The server didn't return a xml file."
+  
   def get_url_content(url)
     
     raise ArgumentError if url.nil?
@@ -32,6 +34,7 @@ class DownloadManager
     
     raise Exception.new(HTTP_RESPONSE_ERROR_MESSAGE) if response.code != "200"
     raise Exception.new(HTTP_RESPONSE_BODY_EMPTY) if response.body.nil?
+    raise Exception.new(HTTP_RESPONSE_BAD_CONTENT_TYPE) if not response['Content-type'].include? 'text'
     
     response.body
   end
