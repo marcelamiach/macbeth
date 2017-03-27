@@ -72,5 +72,13 @@ describe Parser do
       
       expect { @parser.parse_url_content(@url) }.to raise_error(Parser::NO_TITLE_TAG_ERROR_MESSAGE)
     end
+
+    it 'parse_url_content should raise exception if xml content has not at least one act node' do
+      xml_content = "<PLAY><TITLE></TITLE></PLAY>"
+      
+      allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return(xml_content)
+      
+      expect { @parser.parse_url_content(@url) }.to raise_error(Parser::NO_ACT_TAG_ERROR_MESSAGE)
+    end
   end
 end

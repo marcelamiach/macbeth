@@ -7,6 +7,7 @@ class Parser
   NOT_XML_CONTENT_ERROR_MESSAGE = "The url didn't return a xml content."
   NOT_PLAY_CONTENT_ERROR_MESSAGE = "This xml file is not a play."
   NO_TITLE_TAG_ERROR_MESSAGE = "This xml file has not a play title."
+  NO_ACT_TAG_ERROR_MESSAGE = "This xml file does not contain ACT tags."
   
   def parse_url_content(url)
     
@@ -28,6 +29,7 @@ class Parser
     raise Exception.new(NOT_XML_CONTENT_ERROR_MESSAGE) if xml_content.nil?
     raise Exception.new(NOT_PLAY_CONTENT_ERROR_MESSAGE) if is_not_a_play?(xml_content)
     raise Exception.new(NO_TITLE_TAG_ERROR_MESSAGE) if has_not_title?(xml_content)
+    raise Exception.new(NO_ACT_TAG_ERROR_MESSAGE) if has_not_act?(xml_content)
     
   end
   
@@ -45,5 +47,9 @@ class Parser
   
   def has_not_title?(xml_content)
     xml_content.xpath("//PLAY//TITLE").empty?
+  end
+  
+  def has_not_act?(xml_content)
+    xml_content.xpath("//PLAY//ACT").empty?
   end
 end
