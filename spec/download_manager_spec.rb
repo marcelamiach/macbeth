@@ -38,6 +38,13 @@ describe DownloadManager do
     
       expect { @download_manager.get_url_content(argument) }.to raise_error(ArgumentError)
     end
+    
+    it 'method get_url_content should add to url prefix "http" if not present' do
+      argument = "www.example.com"
+      
+      expect(@download_manager).to receive(:run_get_request).with("http://#{argument}")
+      @download_manager.get_url_content(argument)
+    end
   end
   
   context "When testing errors handling for run_get_request execution" do

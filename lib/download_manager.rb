@@ -20,6 +20,8 @@ class DownloadManager
     raise ArgumentError if not (url.instance_of? String)
     raise ArgumentError if url.empty?
     
+    url = "http://#{url}" if not url.include?("http")
+    
     begin
       response = run_get_request(url)
     rescue SocketError
