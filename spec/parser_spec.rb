@@ -48,5 +48,13 @@ describe Parser do
       
       expect { @parser.parse_url_content(url) }.to raise_error(Parser::INVALID_URL_CONTENT_ERROR_MESSAGE)
     end
+  
+    it 'parse_url_content should raise exception if response body is not a xml content' do
+      url = "http://www.example.com"
+
+      allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return("I'm not a xml content.")
+      
+      expect { @parser.parse_url_content(url) }.to raise_error(Parser::NOT_XML_CONTENT_ERROR_MESSAGE)
+    end
   end
 end
