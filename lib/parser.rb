@@ -10,6 +10,7 @@ class Parser
   NO_ACT_TAG_ERROR_MESSAGE = "This xml file does not contain ACT tags."
   NO_SCENE_TAG_ERROR_MESSAGE = "This xml file does not contain SCENE tags."
   NO_SPEECH_TAG_ERROR_MESSAGE = "This xml file does not contain SPEECH tags."
+  NO_SPEAKER_TAG_ERROR_MESSAGE = "This xml file does not contain SPEAKER tags"
   
   def parse_url_content(url)
     
@@ -34,6 +35,7 @@ class Parser
     raise Exception.new(NO_ACT_TAG_ERROR_MESSAGE) if has_not_act?(xml_content)
     raise Exception.new(NO_SCENE_TAG_ERROR_MESSAGE) if has_not_scene?(xml_content)
     raise Exception.new(NO_SPEECH_TAG_ERROR_MESSAGE) if has_not_speech?(xml_content)
+    raise Exception.new(NO_SPEAKER_TAG_ERROR_MESSAGE) if has_not_speaker?(xml_content)
   end
   
   private
@@ -62,5 +64,9 @@ class Parser
   
   def has_not_speech?(xml_content)
     xml_content.xpath("//PLAY//ACT//SCENE//SPEECH").empty?
+  end
+  
+  def has_not_speaker?(xml_content)
+    xml_content.xpath("//PLAY//ACT//SCENE//SPEECH//SPEAKER").empty?
   end
 end
