@@ -59,5 +59,14 @@ describe Parser do
       
       expect { @parser.parse_url_content(url) }.to raise_error(Parser::NOT_XML_CONTENT_ERROR_MESSAGE)
     end
+    
+    it 'parse_url_content should raise exception if xml content is not a play' do
+      url = "http://www.example.com"      
+      xml_content = "<blah></blah>"
+
+      allow_any_instance_of(DownloadManager).to receive(:get_url_content).and_return(xml_content)
+      
+      expect { @parser.parse_url_content(url) }.to raise_error(Parser::NOT_PLAY_CONTENT_ERROR_MESSAGE)
+    end
   end
 end

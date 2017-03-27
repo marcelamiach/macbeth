@@ -5,6 +5,7 @@ class Parser
   
   INVALID_URL_CONTENT_ERROR_MESSAGE = "The content of this url is invalid."
   NOT_XML_CONTENT_ERROR_MESSAGE = "The url didn't return a xml content."
+  NOT_PLAY_CONTENT_ERROR_MESSAGE = "This xml file is not a play."
   
   def parse_url_content(url)
     
@@ -24,6 +25,8 @@ class Parser
     end
     
     raise Exception.new(NOT_XML_CONTENT_ERROR_MESSAGE) if xml_content.nil?
+    raise Exception.new(NOT_PLAY_CONTENT_ERROR_MESSAGE) if is_not_a_play?(xml_content)
+    
     
   end
   
@@ -33,5 +36,9 @@ class Parser
     Nokogiri::XML(content) do |config|
         config.strict.noblanks
     end
+  end
+    
+  def is_not_a_play?(xml_content)
+    xml_content.xpath("//PLAY").empty?
   end
 end
